@@ -1,8 +1,10 @@
-import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonSplitPane, IonSpinner, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
 import Menu from './components/Menu';
 import Page from './pages/Page';
+import { ToastProvider } from './components/Toast';
+import { useLogin } from './components/Store/useLogin';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -33,10 +35,32 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import './App.css';
+import Login from './components/Login';
 
 setupIonicReact();
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
+  const { auth, isLoading } = useLogin();
+
+  // Показываем загрузку во время инициализации
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center bg-light" style={{ height: '100vh' }}>
+        <div className="glass rounded-xl p-xl text-center">
+          <IonSpinner name="crescent" className="neon-border-blue" />
+          <p className="text-primary font-medium m-md">Загрузка...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Если не авторизован - показываем Login
+  if (!auth) {
+    return <Login />;
+  }
+
+  // Если авторизован - показываем основное приложение
   return (
     <IonApp>
       <IonReactRouter>
@@ -53,6 +77,14 @@ const App: React.FC = () => {
         </IonSplitPane>
       </IonReactRouter>
     </IonApp>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <ToastProvider>
+      <AppContent />
+    </ToastProvider>
   );
 };
 

@@ -30,15 +30,11 @@ export interface AppState extends TState {
 }
 
 interface LoginResponse {
-  success:      boolean
-  data: {
     id:         string
     phone:      string
     fullName:   string
     role:       string
     token:      string
-  } | null
-  error?: string
 }
 
 // ============================================
@@ -81,34 +77,37 @@ export function useLogin() {
       )
 
       console.log( "authorization", response )
+      console.log( response.success )
+      console.log( response.data )
 
-      if (response.success && response.data?.success && response.data.data) {
-        const userData = response.data.data
+      if (response.success && response.data) {
+
+        const userData = response.data
         
-        appStore.dispatch({ type: 'auth', data: true })
-        appStore.dispatch({ type: 'id', data: userData.id })
-        appStore.dispatch({ type: 'name', data: userData.fullName })
-        appStore.dispatch({ type: 'token', data: userData.token })
-        appStore.dispatch({ type: 'role', data: userData.role })
-        appStore.dispatch({ type: 'isLoading', data: false })
-        appStore.dispatch({ type: 'error', data: null })
+        appStore.dispatch({ type: 'auth',       data: true })
+        appStore.dispatch({ type: 'id',         data: userData.id })
+        appStore.dispatch({ type: 'name',       data: userData.fullName })
+        appStore.dispatch({ type: 'token',      data: userData.token })
+        appStore.dispatch({ type: 'role',       data: userData.role })
+        appStore.dispatch({ type: 'isLoading',  data: false })
+        appStore.dispatch({ type: 'error',      data: null })
       
         toast.success( 'Авторизация успешна')
 
         return true
       }
 
-      appStore.dispatch({ type: 'isLoading', data: false })
-      appStore.dispatch({ type: 'auth', data: false })
+      appStore.dispatch({ type: 'isLoading',    data: false })
+      appStore.dispatch({ type: 'auth',         data: false })
 
       toast.error( response.message || 'Ошибка авторизации')
       
       return false
 
     } catch (error: any) {
-      appStore.dispatch({ type: 'isLoading', data: false })
-      appStore.dispatch({ type: 'error', data: error instanceof Error ? error.message : 'Сетевая ошибка' })
-      appStore.dispatch({ type: 'auth', data: false })
+      appStore.dispatch({ type: 'isLoading',    data: false })
+      appStore.dispatch({ type: 'error',        data: error instanceof Error ? error.message : 'Сетевая ошибка' })
+      appStore.dispatch({ type: 'auth',         data: false })
 
       toast.error( error?.message || 'Ошибка авторизации')
       
@@ -117,12 +116,12 @@ export function useLogin() {
   }, [])
 
   const logout = useCallback(() => {
-    appStore.dispatch({ type: 'auth', data: false })
+    appStore.dispatch({ type: 'auth',           data: false })
     appStore.dispatch({ type: 'id', data: null })
-    appStore.dispatch({ type: 'name', data: null })
-    appStore.dispatch({ type: 'token', data: null })
-    appStore.dispatch({ type: 'role', data: null })
-    appStore.dispatch({ type: 'error', data: null })
+    appStore.dispatch({ type: 'name',           data: null })
+    appStore.dispatch({ type: 'token',          data: null })
+    appStore.dispatch({ type: 'role',           data: null })
+    appStore.dispatch({ type: 'error',          data: null })
 
     toast.info("Выход с авторизации")
   }, [])
