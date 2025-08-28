@@ -1,0 +1,7 @@
+{
+  "name": "mi-app-1",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}

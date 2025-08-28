@@ -1,0 +1,337 @@
+/* ============================================
+   БАЗОВЫЕ УТИЛИТАРНЫЕ КЛАССЫ
+   ============================================ */
+
+/* Размеры шрифтов (сохранены для обратной совместимости) */
+.fs-01 { font-size: 0.10em }
+.fs-02 { font-size: 0.20em }
+.fs-03 { font-size: 0.30em }
+.fs-04 { font-size: 0.40em }
+.fs-05 { font-size: 0.50em }
+.fs-06 { font-size: 0.60em }
+.fs-07 { font-size: 0.70em }
+.fs-08 { font-size: 0.80em }
+.fs-09 { font-size: 0.90em }
+.fs-1 { font-size: 1em }
+.fs-11 { font-size: 1.1em }
+.fs-12 { font-size: 1.2em }
+.fs-13 { font-size: 1.3em }
+.fs-14 { font-size: 1.4em }
+.fs-15 { font-size: 1.5em }
+.fs-2 { font-size: 1.5em }
+.fs-3 { font-size: 2em }
+.fs-4 { font-size: 2.5em }
+.fs-bold { font-weight: var(--font-weight-bold) }
+.fs-italic { font-style: italic }
+
+/* Новые размеры шрифтов (через переменные) */
+.text-xs { font-size: var(--font-size-xs) }
+.text-sm { font-size: var(--font-size-sm) }
+.text-base { font-size: var(--font-size-base) }
+.text-lg { font-size: var(--font-size-lg) }
+.text-xl { font-size: var(--font-size-xl) }
+.text-2xl { font-size: var(--font-size-2xl) }
+.text-3xl { font-size: var(--font-size-3xl) }
+.text-4xl { font-size: var(--font-size-4xl) }
+
+/* Веса шрифтов */
+.font-normal { font-weight: var(--font-weight-normal) }
+.font-medium { font-weight: var(--font-weight-medium) }
+.font-semibold { font-weight: var(--font-weight-semibold) }
+.font-bold { font-weight: var(--font-weight-bold) }
+
+/* Межстрочные интервалы */
+.leading-tight { line-height: var(--line-height-tight) }
+.leading-normal { line-height: var(--line-height-normal) }
+.leading-relaxed { line-height: var(--line-height-relaxed) }
+
+/* ============================================
+   ГРАНИЦЫ И КОНТЕЙНЕРЫ
+   ============================================ */
+
+.borders {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--corporate-border);
+    padding: var(--spacing-md);
+    position: relative;
+}
+
+.borders-wp {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--corporate-border);
+    position: relative;
+}
+
+.t-underline {
+    border-bottom: 1px solid var(--corporate-border);
+}
+
+.t-upperline {
+    border-top: 1px solid var(--corporate-border);
+}
+
+/* Радиусы скругления */
+.rounded-sm { border-radius: var(--radius-sm) }
+.rounded { border-radius: var(--radius-md) }
+.rounded-lg { border-radius: var(--radius-lg) }
+.rounded-xl { border-radius: var(--radius-xl) }
+
+/* ============================================
+   ФОНЫ И ЦВЕТА
+   ============================================ */
+
+/* Старые классы (обратная совместимость) */
+.bg-1 { background: var(--corporate-white) }
+
+.bg-2 { 
+    background: var(--corporate-primary);
+    color: var(--corporate-white);
+}
+.bg-3 { 
+    background: var(--corporate-secondary);
+    color: var(--corporate-primary);
+    border-radius: var(--radius-sm);
+}
+
+/* Новые фоновые классы */
+.bg-primary { background-color: var(--color-primary) }
+.bg-primary-dark { background-color: var(--color-primary-dark) }
+.bg-secondary { background-color: var(--color-secondary-light) }
+.bg-accent { background-color: var(--color-accent) }
+.bg-white { background-color: var(--color-white) }
+.bg-success { background-color: var(--color-success) }
+.bg-warning { background-color: var(--color-warning) }
+.bg-danger { background-color: var(--color-danger) }
+.bg-light { background-color: var(--color-light) }
+.bg-dark { background-color: var(--color-dark) }
+
+/* Цвета текста (старые) */
+.cl-green { color: var(--color-success) }
+.cl-red { color: var(--color-warning) }
+.cl-yellow { color: yellow }
+.cl-red1 { color: var(--color-danger) }
+.cl-prim { color: var(--corporate-primary) }
+.cl-black { color: var(--color-dark) }
+.cl-white { color: var(--color-white) }
+
+/* Новые цвета текста */
+.text-primary { color: var(--color-primary) }
+.text-primary-dark { color: var(--color-primary-dark) }
+.text-secondary { color: var(--color-secondary-light) }
+.text-accent { color: var(--color-accent) }
+.text-white { color: var(--color-white) }
+.text-success { color: var(--color-success) }
+.text-warning { color: var(--color-warning) }
+.text-danger { color: var(--color-danger) }
+.text-dark { color: var(--color-dark) }
+.text-muted { color: var(--color-text-primary); opacity: 0.7; }
+
+/* ============================================
+   ОТСТУПЫ И РАЗМЕРЫ
+   ============================================ */
+
+/* Padding */
+.p-0 { padding: 0 }
+.p-xs { padding: var(--spacing-xs) }
+.p-sm { padding: var(--spacing-sm) }
+.p-md { padding: var(--spacing-md) }
+.p-lg { padding: var(--spacing-lg) }
+.p-xl { padding: var(--spacing-xl) }
+.p-2xl { padding: var(--spacing-2xl) }
+
+/* Margin */
+.m-0 { margin: 0 }
+.m-xs { margin: var(--spacing-xs) }
+.m-sm { margin: var(--spacing-sm) }
+.m-md { margin: var(--spacing-md) }
+.m-lg { margin: var(--spacing-lg) }
+.m-xl { margin: var(--spacing-xl) }
+.m-2xl { margin: var(--spacing-2xl) }
+
+/* Margin auto */
+.mx-auto { margin-left: auto; margin-right: auto; }
+.my-auto { margin-top: auto; margin-bottom: auto; }
+
+/* ============================================
+   FLEXBOX УТИЛИТЫ
+   ============================================ */
+
+.flex { display: flex }
+.flex-col { flex-direction: column }
+.flex-row { flex-direction: row }
+.flex-wrap { flex-wrap: wrap }
+.flex-nowrap { flex-wrap: nowrap }
+
+.items-start { align-items: flex-start }
+.items-center { align-items: center }
+.items-end { align-items: flex-end }
+.items-stretch { align-items: stretch }
+
+.justify-start { justify-content: flex-start }
+.justify-center { justify-content: center }
+.justify-end { justify-content: flex-end }
+.justify-between { justify-content: space-between }
+.justify-around { justify-content: space-around }
+
+.flex-grow { flex-grow: 1 }
+.flex-shrink-0 { flex-shrink: 0 }
+
+/* ============================================
+   ПОЗИЦИОНИРОВАНИЕ
+   ============================================ */
+
+.relative { position: relative }
+.absolute { position: absolute }
+.fixed { position: fixed }
+.sticky { position: sticky }
+
+.top-0 { top: 0 }
+.right-0 { right: 0 }
+.bottom-0 { bottom: 0 }
+.left-0 { left: 0 }
+
+/* ============================================
+   OVERFLOW И SCROLL
+   ============================================ */
+
+.scroll { 
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+
+.overflow-hidden { overflow: hidden }
+.overflow-auto { overflow: auto }
+.overflow-scroll { overflow: scroll }
+
+.overflow-x-hidden { overflow-x: hidden }
+.overflow-x-auto { overflow-x: auto }
+.overflow-x-scroll { overflow-x: scroll }
+
+.overflow-y-hidden { overflow-y: hidden }
+.overflow-y-auto { overflow-y: auto }
+.overflow-y-scroll { overflow-y: scroll }
+
+/* ============================================
+   ТЕНИ
+   ============================================ */
+
+.shadow-sm { box-shadow: var(--shadow-sm) }
+.shadow { box-shadow: var(--shadow-md) }
+.shadow-md { box-shadow: var(--shadow-md) }
+.shadow-lg { box-shadow: var(--shadow-lg) }
+.shadow-xl { box-shadow: var(--shadow-xl) }
+.shadow-none { box-shadow: none }
+
+/* ============================================
+   ПЕРЕХОДЫ
+   ============================================ */
+
+.transition-fast { transition: all var(--transition-fast) }
+.transition { transition: all var(--transition-normal) }
+.transition-slow { transition: all var(--transition-slow) }
+.transition-none { transition: none }
+
+/* ============================================
+   КОРПОРАТИВНЫЕ КОМПОНЕНТЫ
+   ============================================ */
+
+/* Базовый корпоративный контейнер */
+.corporate-container {
+    background: var(--corporate-secondary);
+    color: var(--corporate-text);
+    font-family: var(--font-family-system);
+}
+
+/* Корпоративная карточка */
+.corporate-card {
+    background: var(--corporate-white);
+    border: 2px solid var(--corporate-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    border-left: 6px solid var(--corporate-primary);
+    transition: var(--transition-normal);
+    position: relative;
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-lg);
+}
+
+.corporate-card:hover {
+    border-left-color: var(--corporate-accent);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+    transform: translateX(4px);
+}
+
+/* Корпоративный заголовок */
+.corporate-header {
+    background: var(--corporate-primary);
+    color: var(--corporate-white);
+    border-bottom: 4px solid var(--corporate-accent);
+    box-shadow: var(--shadow-md);
+    position: relative;
+}
+
+.corporate-header::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: var(--spacing-lg);
+    width: 120px;
+    height: 4px;
+    background: var(--corporate-blue);
+    z-index: 1;
+}
+
+/* Корпоративные кнопки */
+.btn-corporate {
+    background: var(--corporate-primary);
+    color: var(--corporate-white);
+    border: 2px solid var(--corporate-primary);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: var(--transition-normal);
+    cursor: pointer;
+}
+
+.btn-corporate:hover {
+    background: var(--corporate-accent);
+    border-color: var(--corporate-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-corporate-outline {
+    background: transparent;
+    color: var(--corporate-primary);
+    border: 2px solid var(--corporate-primary);
+}
+
+.btn-corporate-outline:hover {
+    background: var(--corporate-primary);
+    color: var(--corporate-white);
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+
+/* Скрытие на мобильных */
+@media (max-width: 767px) {
+    .hidden-mobile { display: none !important; }
+}
+
+/* Скрытие на десктопе */
+@media (min-width: 768px) {
+    .hidden-desktop { display: none !important; }
+}
+
+/* Уменьшение отступов на мобильных */
+@media (max-width: 767px) {
+    .p-md-mobile { padding: var(--spacing-sm) !important; }
+    .m-md-mobile { margin: var(--spacing-sm) !important; }
+    
+    .text-lg-mobile { font-size: var(--font-size-base) !important; }
+    .text-xl-mobile { font-size: var(--font-size-lg) !important; }
+}
