@@ -25,6 +25,7 @@ const Login: React.FC = () => {
 
   // Инициализация Maskito для телефона
   useEffect(() => {
+    
     const initMaskito = async () => {
       if (phoneInputRef.current && !maskitoRef.current) {
         try {
@@ -41,24 +42,7 @@ const Login: React.FC = () => {
 
             // Кастомная маска для российского номера +7 (XXX) XXX-XX-XX
             const customMask = [
-              '+',
-              '7',
-              ' ',
-              '(',
-              /\d/,
-              /\d/,
-              /\d/,
-              ')',
-              ' ',
-              /\d/,
-              /\d/,
-              /\d/,
-              '-',
-              /\d/,
-              /\d/,
-              '-',
-              /\d/,
-              /\d/
+              '+', '7', ' ', '(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/
             ];
 
             // Инициализируем Maskito с кастомными настройками
@@ -125,6 +109,7 @@ const Login: React.FC = () => {
                 setPhone(formattedPhone);
               }
             }
+
           }
         } catch (error) {
           console.error('Ошибка инициализации Maskito:', error);
