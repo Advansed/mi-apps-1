@@ -36,27 +36,17 @@ const Page: React.FC = () => {
       case 'Inbox':
         return (
           <>
-            <IonButton fill="clear" onClick={() => console.log('Search')}>
-              <IonIcon icon={searchOutline} />
-            </IonButton>
-            <IonButton fill="clear" onClick={() => console.log('Add')}>
-              <IonIcon icon={addOutline} />
-            </IonButton>
           </>
         );
       
       case 'Outbox':
         return (
-          <IonButton fill="clear" onClick={() => navigateInside('compose')}>
-            <IonIcon icon={addOutline} />
-          </IonButton>
+          <></>
         );
       
       default:
         return (
-          <IonButton fill="clear">
-            <IonIcon icon={ellipsisVerticalOutline} />
-          </IonButton>
+          <></>
         );
     }
   };

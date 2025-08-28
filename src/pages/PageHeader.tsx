@@ -98,39 +98,40 @@ const PageHeader: React.FC<PageHeaderProps> = ({
     <IonHeader className={headerClasses}>
       <IonToolbar className={toolbarClasses}>
         
-        {/* ЛЕВЫЕ КНОПКИ */}
-        <IonButtons slot="start" className={styles.startButtons}>
-          
-          {/* КНОПКА НАЗАД */}
-          {shouldShowBackButton && (
+       {/* КНОПКА НАЗАД (СЛЕВА) */}
+        {shouldShowBackButton && (
+          <IonButtons slot="start">
             <IonButton 
               fill="clear" 
               onClick={handleBackClick}
               className={styles.backButton}
-              title={`Назад (${backType === 'internal' ? 'внутри раздела' : 'к предыдущему разделу'})`}
             >
-              <IonIcon 
-                icon={getBackIcon()} 
-                className={styles.backIcon}
-              />
+              <IonIcon icon={getBackIcon()} className={styles.backIcon} />
               {backButtonText && (
                 <span className={styles.backText}>{backButtonText}</span>
               )}
             </IonButton>
-          )}
-          
-          {/* КНОПКА МЕНЮ */}
-          {showMenuButton && (
-            <IonMenuButton className={styles.menuButton} />
-          )}
-          
+          </IonButtons>
+        )}
 
-        {/* ЗАГОЛОВОК */}
+        {/* ЗАГОЛОВОК (ЦЕНТР) */}
         <IonTitle className={titleClasses}>
           {title}
         </IonTitle>
 
-        </IonButtons>
+        {/* КНОПКА МЕНЮ (СПРАВА) */}
+        {showMenuButton && (
+          <IonButtons slot="end">
+            <IonMenuButton className={styles.menuButton} />
+          </IonButtons>
+        )}
+
+        {/* ДОПОЛНИТЕЛЬНЫЕ КНОПКИ (СПРАВА) */}
+        {rightButtons && (
+          <IonButtons slot="end">
+            {rightButtons}
+          </IonButtons>
+        )}
 
       </IonToolbar>
     </IonHeader>
