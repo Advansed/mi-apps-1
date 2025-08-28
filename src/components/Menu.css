@@ -1,113 +1,424 @@
+/* ============================================
+   БАЗОВЫЕ СТИЛИ МЕНЮ
+   ============================================ */
+
 ion-menu ion-content {
-  --background: var(--ion-item-background, var(--ion-background-color, #fff));
+  --background: var(--color-background);
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
 }
 
-ion-menu.md ion-content {
-  --padding-start: 8px;
-  --padding-end: 8px;
-  --padding-top: 20px;
-  --padding-bottom: 20px;
+/* ============================================
+   ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ
+   ============================================ */
+
+.user-profile-section {
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  position: relative;
 }
 
-ion-menu.md ion-list {
-  padding: 20px 0;
+.user-profile-card {
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-normal);
 }
 
-ion-menu.md ion-note {
-  margin-bottom: 30px;
+.user-profile-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-primary);
+  opacity: 0.8;
 }
 
-ion-menu.md ion-list-header, ion-menu.md ion-note {
-  padding-left: 10px;
+.user-profile-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glass-hover);
 }
 
-ion-menu.md ion-list#inbox-list {
-  border-bottom: 1px solid var(--ion-background-color-step-150, #d7d8da);
+/* Аватар пользователя */
+.user-avatar-container {
+  position: relative;
+  flex-shrink: 0;
 }
 
-ion-menu.md ion-list#inbox-list ion-list-header {
-  font-size: 22px;
-  font-weight: 600;
-  min-height: 20px;
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border: 2px solid rgba(var(--ion-color-primary-rgb), 0.3);
+  transition: var(--transition-normal);
 }
 
-ion-menu.md ion-list#labels-list ion-list-header {
+.user-avatar-icon {
+  font-size: 48px;
+  color: var(--color-primary);
+}
+
+.user-status-dot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background: var(--color-success);
+  border: 2px solid var(--color-white);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 204, 68, 0.5);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+/* Информация о пользователе */
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-name {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin: 0 0 var(--spacing-xs) 0;
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.01em;
+}
+
+.user-role-badge {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Кнопка выхода */
+.logout-button {
+  --color: var(--color-medium);
+  --color-hover: var(--color-danger);
+  flex-shrink: 0;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  transition: var(--transition-normal);
+}
+
+.logout-button:hover {
+  --background: rgba(var(--ion-color-danger-rgb), 0.1);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(var(--ion-color-danger-rgb), 0.3);
+}
+
+/* ============================================
+   НАВИГАЦИОННЫЙ СПИСОК
+   ============================================ */
+
+.navigation-list {
+  padding: var(--spacing-sm) 0;
+  margin: 0;
+  background: transparent;
+}
+
+.labels-list {
+  padding: var(--spacing-sm) 0;
+  margin: var(--spacing-md) 0 0 0;
+  background: transparent;
+  border-top: 1px solid var(--glass-border);
+}
+
+/* Заголовки разделов */
+.nav-header {
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin: 0;
+  min-height: auto;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Элементы навигации */
+.nav-item {
+  --background: transparent;
+  --background-hover: rgba(var(--ion-color-primary-rgb), 0.08);
+  --background-activated: rgba(var(--ion-color-primary-rgb), 0.12);
+  --color: var(--color-text-primary);
+  
+  margin: 2px var(--spacing-sm);
+  border-radius: var(--radius-md);
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(var(--ion-color-primary-rgb), 0.1), 
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.nav-item:hover::before {
+  left: 100%;
+}
+
+.nav-item.selected {
+  --background: var(--glass-background);
+  --color: var(--color-primary);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(var(--ion-color-primary-rgb), 0.2);
+  box-shadow: 
+    0 4px 12px rgba(var(--ion-color-primary-rgb), 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.nav-item-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  width: 100%;
+  position: relative;
+}
+
+/* Иконки навигации */
+.nav-icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.nav-icon {
+  font-size: 20px;
+  transition: var(--transition-normal);
+  z-index: 2;
+}
+
+.nav-icon-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, 
+    rgba(var(--ion-color-primary-rgb), 0.3) 0%, 
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+}
+
+.nav-label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  flex: 1;
+}
+
+.nav-item-indicator {
+  width: 4px;
+  height: 24px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-sm);
+  opacity: 0.8;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { width: 0; opacity: 0; }
+  to { width: 4px; opacity: 0.8; }
+}
+
+/* Hover эффекты */
+.nav-item:hover .nav-icon {
+  color: var(--color-primary);
+  transform: scale(1.1);
+}
+
+.nav-item:hover .nav-label {
+  color: var(--color-primary);
+}
+
+/* ============================================
+   МЕТКИ
+   ============================================ */
+
+.label-item {
+  --background: transparent;
+  --background-hover: rgba(var(--ion-color-secondary-rgb), 0.06);
+  --color: var(--color-text-secondary);
+  
+  margin: 2px var(--spacing-md);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-normal);
+}
+
+.label-item-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.label-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+}
+
+.label-icon {
   font-size: 16px;
-  margin-bottom: 18px;
-  color: #757575;
-  min-height: 26px;
+  color: var(--color-secondary);
+  transition: var(--transition-normal);
 }
 
-ion-menu.md ion-item {
-  --padding-start: 10px;
-  --padding-end: 10px;
-  border-radius: 4px;
+.label-text {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
 }
 
-ion-menu.md ion-item.selected {
-  --background: rgba(var(--ion-color-primary-rgb), 0.14);
+.label-item:hover .label-icon {
+  color: var(--color-secondary-light);
+  transform: scale(1.1);
 }
 
-ion-menu.md ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
+.label-item:hover .label-text {
+  color: var(--color-text-primary);
 }
 
-ion-menu.md ion-item ion-icon {
-  color: #616e7e;
+/* ============================================
+   ПОДВАЛ МЕНЮ
+   ============================================ */
+
+.menu-footer {
+  padding: var(--spacing-md);
+  margin-top: auto;
+  text-align: center;
+  border-top: 1px solid var(--glass-border);
 }
 
-ion-menu.md ion-item ion-label {
-  font-weight: 500;
+.footer-note {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  opacity: 0.7;
 }
 
-ion-menu.ios ion-content {
-  --padding-bottom: 20px;
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+  .user-profile-card {
+    padding: var(--spacing-md);
+  }
+  
+  .user-name {
+    font-size: var(--font-size-base);
+  }
+  
+  .nav-item {
+    margin: 2px var(--spacing-xs);
+  }
+  
+  .label-item {
+    margin: 2px var(--spacing-sm);
+  }
 }
 
-ion-menu.ios ion-list {
-  padding: 20px 0 0 0;
+/* ============================================
+   АНИМАЦИИ ПОЯВЛЕНИЯ
+   ============================================ */
+
+.user-profile-section {
+  animation: slideInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-ion-menu.ios ion-note {
-  line-height: 24px;
-  margin-bottom: 20px;
+.navigation-list .nav-item {
+  animation: slideInLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-ion-menu.ios ion-item {
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --min-height: 50px;
+.navigation-list .nav-item:nth-child(1) { animation-delay: 0.1s; }
+.navigation-list .nav-item:nth-child(2) { animation-delay: 0.15s; }
+.navigation-list .nav-item:nth-child(3) { animation-delay: 0.2s; }
+.navigation-list .nav-item:nth-child(4) { animation-delay: 0.25s; }
+.navigation-list .nav-item:nth-child(5) { animation-delay: 0.3s; }
+.navigation-list .nav-item:nth-child(6) { animation-delay: 0.35s; }
+
+.labels-list {
+  animation: slideInLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
 }
 
-ion-menu.ios ion-item ion-icon {
-  font-size: 24px;
-  color: #73849a;
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-ion-menu.ios ion-item .selected ion-icon {
-  color: var(--ion-color-primary);
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-ion-menu.ios ion-list#labels-list ion-list-header {
-  margin-bottom: 8px;
-}
+/* ============================================
+   ТЕМНАЯ ТЕМА (если активна)
+   ============================================ */
 
-ion-menu.ios ion-list-header,
-ion-menu.ios ion-note {
-  padding-left: 16px;
-  padding-right: 16px;
+@media (prefers-color-scheme: dark) {
+  .user-profile-card {
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .user-name {
+    color: var(--color-white);
+  }
+  
+  .nav-item.selected {
+    background: rgba(0, 153, 255, 0.15);
+    border-color: rgba(0, 153, 255, 0.3);
+  }
 }
-
-ion-menu.ios ion-note {
-  margin-bottom: 8px;
-}
-
-ion-note {
-  display: inline-block;
-  font-size: 16px;
-  color: var(--ion-color-medium-shade);
-}
-
-ion-item.selected {
-  --color: var(--ion-color-primary);
-} 
