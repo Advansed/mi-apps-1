@@ -76,10 +76,6 @@ export function useLogin() {
         API_URL, 'AUTHORIZATION', { login: phone, password: password }
       )
 
-      console.log( "authorization", response )
-      console.log( response.success )
-      console.log( response.data )
-
       if (response.success && response.data) {
 
         const userData = response.data

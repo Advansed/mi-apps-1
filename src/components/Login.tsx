@@ -17,7 +17,7 @@ import styles from './Login.module.css';
 const Login: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const { isLoading, login } = useLogin();
+  const { isLoading, login, auth } = useLogin();
   
   // Refs для Maskito
   const phoneInputRef = useRef<HTMLIonInputElement>(null);
@@ -25,7 +25,7 @@ const Login: React.FC = () => {
 
   // Инициализация Maskito для телефона
   useEffect(() => {
-    
+
     const initMaskito = async () => {
       if (phoneInputRef.current && !maskitoRef.current) {
         try {
@@ -119,6 +119,12 @@ const Login: React.FC = () => {
 
     initMaskito();
 
+    const login = localStorage.getItem("mi-apps.login")
+    if( login ){
+        setPhone(login)
+        setPassword( localStorage.getItem("mi-apps.password") as string )
+    }
+
     // Cleanup при размонтировании
     return () => {
       if (maskitoRef.current) {
@@ -127,6 +133,13 @@ const Login: React.FC = () => {
       }
     };
   }, []);
+
+  useEffect(()=>{
+    if(auth){
+        localStorage.setItem("mi-apps.login", phone )
+        localStorage.setItem("mi-apps.password", password )
+    }
+  },[auth])
 
   // Получение чистого номера для отправки на сервер
   const getCleanPhone = (formattedPhone: string): string => {
