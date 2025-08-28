@@ -1,0 +1,306 @@
+/* src/components/PageHeader/PageHeader.module.css */
+
+/* ============================================
+   ОСНОВНЫЕ СТИЛИ HEADER
+   ============================================ */
+
+.header {
+  position: relative;
+  z-index: 10;
+  transition: all var(--transition-normal);
+}
+
+.toolbar {
+  --background: transparent;
+  --color: var(--color-text-primary);
+  --border-color: transparent;
+  padding: 0 var(--spacing-sm);
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================
+   ВАРИАНТЫ СТИЛЕЙ
+   ============================================ */
+
+/* Стандартный стиль */
+.default {
+  background: var(--color-background);
+  border-bottom: 1px solid var(--color-light);
+}
+
+/* Glass эффект (по умолчанию) */
+.glass {
+  background: var(--glass-background);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+}
+
+.glass::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--color-primary) 30%, 
+    var(--color-secondary) 70%, 
+    transparent 100%
+  );
+  opacity: 0.3;
+}
+
+/* Корпоративный стиль */
+.corporate {
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  box-shadow: var(--shadow-lg);
+  border-bottom: 3px solid var(--color-accent);
+}
+
+.corporate .toolbar {
+  --color: var(--color-white);
+}
+
+.corporate .title {
+  color: var(--color-white);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ============================================
+   КОНТЕЙНЕРЫ КНОПОК
+   ============================================ */
+
+.startButtons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.endButtons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+/* ============================================
+   ЗАГОЛОВОК
+   ============================================ */
+
+.title {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-system);
+  text-align: center;
+  letter-spacing: -0.01em;
+  transition: all var(--transition-normal);
+}
+
+/* ============================================
+   КНОПКА НАЗАД
+   ============================================ */
+
+.backButton {
+  --color: var(--color-primary);
+  --color-hover: var(--color-primary-dark);
+  --background-hover: rgba(var(--ion-color-primary-rgb), 0.1);
+  
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.backButton::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(var(--ion-color-primary-rgb), 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.backButton:hover {
+  transform: translateX(-2px);
+  --color: var(--color-primary-dark);
+}
+
+.backButton:hover::before {
+  width: 100px;
+  height: 100px;
+}
+
+.backButton:active {
+  transform: translateX(-1px) scale(0.98);
+}
+
+.backIcon {
+  font-size: 1.25rem;
+  transition: all var(--transition-normal);
+}
+
+.backButton:hover .backIcon {
+  transform: translateX(-1px);
+}
+
+.backText {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+/* ============================================
+   КНОПКА МЕНЮ
+   ============================================ */
+
+.menuButton {
+  --color: var(--color-primary);
+  --color-hover: var(--color-primary-dark);
+  --background-hover: rgba(var(--ion-color-primary-rgb), 0.1);
+  
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xs);
+  transition: all var(--transition-normal);
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.menuButton:hover {
+  transform: scale(1.05);
+  --color: var(--color-primary-dark);
+}
+
+.menuButton:active {
+  transform: scale(0.95);
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ
+   ============================================ */
+
+/* Планшеты */
+@media (max-width: 768px) {
+  .toolbar {
+    padding: 0 var(--spacing-xs);
+    min-height: 56px;
+  }
+  
+  .title {
+    font-size: var(--font-size-base);
+  }
+  
+  .backText {
+    display: none; /* Скрываем текст на мобильных */
+  }
+  
+  .backButton,
+  .menuButton {
+    min-width: 36px;
+    min-height: 36px;
+    padding: var(--spacing-xs);
+  }
+  
+  .startButtons,
+  .endButtons {
+    gap: 4px;
+  }
+}
+
+/* Мобильные телефоны */
+@media (max-width: 480px) {
+  .toolbar {
+    min-height: 52px;
+  }
+  
+  .title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+  
+  .backIcon {
+    font-size: 1.1rem;
+  }
+}
+
+/* ============================================
+   АНИМАЦИИ И ЭФФЕКТЫ
+   ============================================ */
+
+/* Плавное появление header */
+.header {
+  animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Пульсация для активной навигации */
+.backButton.active {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(var(--ion-color-primary-rgb), 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(var(--ion-color-primary-rgb), 0);
+  }
+}
+
+/* Неоновые эффекты для корпоративной темы */
+.corporate .backButton:hover,
+.corporate .menuButton:hover {
+  box-shadow: 
+    0 0 15px rgba(255, 255, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   ТЕМНАЯ ТЕМА (если потребуется)
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  .glass {
+    background: rgba(30, 41, 59, 0.8);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .title {
+    color: var(--color-white);
+  }
+  
+  .backButton,
+  .menuButton {
+    --color: var(--color-white);
+    --color-hover: var(--color-secondary-light);
+    --background-hover: rgba(255, 255, 255, 0.1);
+  }
+}
