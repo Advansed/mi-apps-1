@@ -1,0 +1,317 @@
+/* ЭЛЕГАНТНЫЙ СОВРЕМЕННЫЙ СТИЛЬ */
+
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  position: relative;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(0, 153, 255, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 20px;
+  padding: 2.5rem 2.25rem;
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.06),
+    0 4px 16px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.08),
+    0 6px 20px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    #0099ff 0%, 
+    #6366f1 30%, 
+    #8b5cf6 60%, 
+    #0099ff 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 0%; }
+  50% { background-position: 100% 0%; }
+}
+
+.title {
+  color: #1e293b;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.subtitle {
+  color: #64748b;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.inputContainer {
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+.inputContainer:last-of-type {
+  margin-bottom: 2rem;
+}
+
+.inputWrapper {
+  background: rgba(248, 250, 252, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(203, 213, 225, 0.6);
+  border-radius: 14px;
+  padding: 1rem 1.125rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.inputWrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(0, 153, 255, 0.08), 
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.inputWrapper:hover {
+  border-color: rgba(148, 163, 184, 0.8);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.inputWrapper:focus-within {
+  border-color: rgba(0, 153, 255, 0.6);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 0 0 3px rgba(0, 153, 255, 0.1),
+    0 4px 12px rgba(0, 153, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+.inputWrapper:focus-within::before {
+  left: 100%;
+}
+
+.inputIcon {
+  color: #64748b;
+  margin-right: 0.75rem;
+  font-size: 1.125rem;
+  transition: all 0.3s ease;
+  padding: 0.375rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.inputWrapper:focus-within .inputIcon {
+  color: #0099ff;
+  background: rgba(0, 153, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.input {
+  background: transparent;
+  border: none;
+  color: #1e293b;
+  font-size: 1rem;
+  width: 100%;
+  padding: 0;
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.input::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.inputWrapper:focus-within .input::placeholder {
+  color: #64748b;
+}
+
+.loginButton {
+  width: 100%;
+  background: linear-gradient(135deg, #1e293b 0%, #0099ff 100%);
+  border: none;
+  border-radius: 14px;
+  padding: 1rem 1.5rem;
+  color: white;
+  font-size: 0.975rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 4px 14px rgba(0, 153, 255, 0.2),
+    0 2px 8px rgba(30, 41, 59, 0.15);
+}
+
+.loginButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.2), 
+    transparent
+  );
+  transition: left 0.7s ease;
+}
+
+.loginButton::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.loginButton:hover {
+  background: linear-gradient(135deg, #0099ff 0%, #6366f1 100%);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 20px rgba(0, 153, 255, 0.3),
+    0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.loginButton:hover::before {
+  left: 100%;
+}
+
+.loginButton:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+.loginButton:active {
+  transform: translateY(-1px);
+}
+
+.loginButton:disabled {
+  background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loginButton:disabled::before,
+.loginButton:disabled::after {
+  display: none;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  margin-right: 0.5rem;
+  width: 16px;
+  height: 16px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.footer {
+  text-align: center;
+  color: #64748b;
+  font-size: 0.8125rem;
+  margin-top: 1.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Изящная анимация появления */
+.card {
+  animation: gracefulEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes gracefulEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+  50% {
+    opacity: 0.8;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   IonContent,
   IonPage,
@@ -8,21 +8,159 @@ import {
   IonIcon
 } from '@ionic/react';
 import { logInOutline, phonePortraitOutline, lockClosedOutline } from 'ionicons/icons';
-import { useLogin } from '../components/Store/useLogin';
+import { Maskito } from '@maskito/core';
+import { maskitoPhoneOptionsGenerator } from '@maskito/phone';
+import metadata from 'libphonenumber-js/mobile/metadata';
+import { useLogin } from './Store/useLogin';
+import styles from './Login.module.css';
 
 const Login: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const { isLoading, login } = useLogin();
+  
+  // Refs для Maskito
+  const phoneInputRef = useRef<HTMLIonInputElement>(null);
+  const maskitoRef = useRef<Maskito | null>(null);
+
+  // Инициализация Maskito для телефона
+  useEffect(() => {
+    const initMaskito = async () => {
+      if (phoneInputRef.current && !maskitoRef.current) {
+        try {
+          // Получаем нативный input элемент из IonInput
+          const inputElement = await phoneInputRef.current.getInputElement();
+          
+          if (inputElement) {
+            // Настройки для российского номера
+            const phoneOptions = maskitoPhoneOptionsGenerator({
+              countryIsoCode: 'RU',
+              metadata,
+              strict: false, // Позволяет частично заполненные номера
+            });
+
+            // Кастомная маска для российского номера +7 (XXX) XXX-XX-XX
+            const customMask = [
+              '+',
+              '7',
+              ' ',
+              '(',
+              /\d/,
+              /\d/,
+              /\d/,
+              ')',
+              ' ',
+              /\d/,
+              /\d/,
+              /\d/,
+              '-',
+              /\d/,
+              /\d/,
+              '-',
+              /\d/,
+              /\d/
+            ];
+
+            // Инициализируем Maskito с кастомными настройками
+            maskitoRef.current = new Maskito(inputElement, {
+              mask: customMask,
+              preprocessors: [
+                // Предобработчик для нормализации ввода
+                ({ elementState, data }) => {
+                  const { value, selection } = elementState;
+                  
+                  // Если пользователь начинает вводить с 8 или без +7
+                  if (data === '8' && value === '') {
+                    return {
+                      elementState: {
+                        value: '+7 (',
+                        selection: [4, 4] // Курсор после +7 (
+                      },
+                      data: ''
+                    };
+                  }
+                  
+                  // Если вводят цифру в пустое поле, добавляем +7 (
+                  if (/\d/.test(data) && value === '') {
+                    return {
+                      elementState: {
+                        value: '+7 (',
+                        selection: [4, 4]
+                      },
+                      data
+                    };
+                  }
+
+                  return { elementState, data };
+                }
+              ],
+              postprocessors: [
+                // Постобработчик для корректировки результата
+                ({ value, selection }) => {
+                  // Если значение короче минимального, оставляем как есть
+                  if (value.length < 4) {
+                    return { value: '+7 (', selection: [4, 4] };
+                  }
+                  
+                  return { value, selection };
+                }
+              ],
+              overwriteMode: 'replace' // Режим замещения
+            });
+
+            // Устанавливаем начальное значение если нужно
+            if (phone && !phone.startsWith('+7')) {
+              const cleanPhone = phone.replace(/\D/g, '');
+              if (cleanPhone) {
+                let formattedPhone = '+7 (';
+                if (cleanPhone.length > 1) {
+                  const digits = cleanPhone.startsWith('7') ? cleanPhone.slice(1) : cleanPhone;
+                  for (let i = 0; i < digits.length && i < 10; i++) {
+                    if (i === 3) formattedPhone += ') ';
+                    else if (i === 6) formattedPhone += '-';
+                    else if (i === 8) formattedPhone += '-';
+                    formattedPhone += digits[i];
+                  }
+                }
+                setPhone(formattedPhone);
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Ошибка инициализации Maskito:', error);
+        }
+      }
+    };
+
+    initMaskito();
+
+    // Cleanup при размонтировании
+    return () => {
+      if (maskitoRef.current) {
+        maskitoRef.current.destroy();
+        maskitoRef.current = null;
+      }
+    };
+  }, []);
+
+  // Получение чистого номера для отправки на сервер
+  const getCleanPhone = (formattedPhone: string): string => {
+    return formattedPhone.replace(/\D/g, '');
+  };
+
+  // Проверка валидности номера
+  const isPhoneValid = (): boolean => {
+    const clean = getCleanPhone(phone);
+    return clean.length === 11 && clean.startsWith('7');
+  };
 
   const handleLogin = async () => {
-    // Валидация полей
-    if (!phone.trim() || !password.trim()) {
+    if (!isPhoneValid() || !password.trim()) {
       return;
     }
 
-    await login(phone.trim(), password);
-    // Редирект будет обработан автоматически в App.tsx
+    const cleanPhone = getCleanPhone(phone);
+    await login(cleanPhone, password);
   };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
@@ -31,101 +169,97 @@ const Login: React.FC = () => {
     }
   };
 
+  const handlePhoneInput = (event: CustomEvent) => {
+    const value = event.detail.value || '';
+    setPhone(value);
+  };
+
+  const handlePasswordInput = (event: CustomEvent) => {
+    setPassword(event.detail.value || '');
+  };
+
   return (
     <IonPage>
-      <IonContent fullscreen className="bg-light">
-        {/* Главный контейнер */}
-        <div className="flex items-center justify-center p-lg" style={{ minHeight: '100vh' }}>
+      <IonContent fullscreen>
+        <div className={styles.container}>
           
-          {/* Карточка авторизации */}
-          <div className="glass corporate-card rounded-xl p-2xl mx-auto" style={{ maxWidth: '400px', width: '100%' }}>
+          <div className={styles.card}>
             
             {/* Заголовок */}
-            <div className="text-center m-lg">
-              <h1 className="gradient-text-primary text-3xl font-bold leading-tight">
-                Авторизация
+            <div>
+              <h1 className={styles.title}>
+                Вход в систему
               </h1>
-              <p className="text-muted text-base m-sm">
-                Введите данные для входа в систему
+              <p className={styles.subtitle}>
+                Введите свои учетные данные для доступа к приложению
               </p>
             </div>
 
-            {/* Форма */}
-            <div className="p-md">
-              
-              {/* Поле телефона */}
-              <div className="m-md">
-                <div className="glass-input rounded p-sm flex items-center">
-                  <IonIcon 
-                    icon={phonePortraitOutline} 
-                    className="text-primary m-sm" 
-                  />
-                  <IonInput
-                    value={phone}
-                    onIonInput={(e) => setPhone(e.detail.value!)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Номер телефона"
-                    type="tel"
-                    disabled={isLoading}
-                    className="text-base"
-                  />
-                </div>
+            {/* Поле телефона с Maskito */}
+            <div className={styles.inputContainer}>
+              <div className={styles.inputWrapper}>
+                <IonIcon 
+                  icon={phonePortraitOutline} 
+                  className={styles.inputIcon}
+                />
+                <IonInput
+                  ref={phoneInputRef}
+                  value={phone}
+                  onIonInput={handlePhoneInput}
+                  onKeyPress={handleKeyPress}
+                  placeholder="+7 (___) ___-__-__"
+                  type="tel"
+                  disabled={isLoading}
+                  className={styles.input}
+                />
               </div>
-
-              {/* Поле пароля */}
-              <div className="m-md">
-                <div className="glass-input rounded p-sm flex items-center">
-                  <IonIcon 
-                    icon={lockClosedOutline} 
-                    className="text-primary m-sm" 
-                  />
-                  <IonInput
-                    value={password}
-                    onIonInput={(e) => setPassword(e.detail.value!)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Пароль"
-                    type="password"
-                    disabled={isLoading}
-                    className="text-base"
-                  />
-                </div>
-              </div>
-
-              {/* Кнопка входа */}
-              <div className="m-lg">
-                <IonButton
-                  expand="block"
-                  onClick={handleLogin}
-                  disabled={isLoading || !phone.trim() || !password.trim()}
-                  className="btn-corporate glow-blue rounded transition"
-                >
-                  {isLoading ? (
-                    <div className="flex items-center justify-center">
-                      <IonSpinner 
-                        name="crescent" 
-                        className="m-sm neon-border-blue"
-                      />
-                      <span className="text-white font-medium">Вход...</span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-center">
-                      <IonIcon 
-                        icon={logInOutline} 
-                        className="m-sm" 
-                      />
-                      <span className="text-white font-medium">Войти</span>
-                    </div>
-                  )}
-                </IonButton>
-              </div>
-
             </div>
 
-            {/* Дополнительная информация */}
-            <div className="text-center p-md">
-              <p className="text-muted text-sm">
-                Используйте корпоративные учетные данные
-              </p>
+            {/* Поле пароля */}
+            <div className={styles.inputContainer}>
+              <div className={styles.inputWrapper}>
+                <IonIcon 
+                  icon={lockClosedOutline} 
+                  className={styles.inputIcon}
+                />
+                <IonInput
+                  value={password}
+                  onIonInput={handlePasswordInput}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Пароль"
+                  type="password"
+                  disabled={isLoading}
+                  className={styles.input}
+                />
+              </div>
+            </div>
+
+            {/* Кнопка входа */}
+            <IonButton
+              expand="block"
+              onClick={handleLogin}
+              disabled={isLoading || !isPhoneValid() || !password.trim()}
+              className={styles.loginButton}
+              fill="clear"
+            >
+              {isLoading ? (
+                <div className={styles.loadingContainer}>
+                  <IonSpinner 
+                    name="crescent" 
+                    className={styles.spinner}
+                  />
+                  <span>Вход...</span>
+                </div>
+              ) : (
+                <div className={styles.loadingContainer}>
+                  <IonIcon icon={logInOutline} />
+                  <span>Войти</span>
+                </div>
+              )}
+            </IonButton>
+
+            <div className={styles.footer}>
+              Используйте корпоративные данные для входа
             </div>
 
           </div>

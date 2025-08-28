@@ -19,6 +19,8 @@
     "@capacitor/status-bar": "7.0.2",
     "@ionic/react": "^8.5.0",
     "@ionic/react-router": "^8.5.0",
+    "@maskito/core": "^3.10.3",
+    "@maskito/phone": "^3.10.3",
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "ionicons": "^7.4.0",
